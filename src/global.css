@@ -20,4 +20,6 @@ html {
 body {
   padding: 0;
   line-height: inherit;
+  display: flex;
+  justify-content: center;
 }

@@ -1,25 +1,51 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useStore, useTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
+import styles from "./index.module.css"
+import Timer from "~/components/timer/timer";
+import { isServer } from "@builder.io/qwik/build"
+
+export interface Activity {
+    start: number;
+    end: number;
+    name: string;
+    category: string;
+}
+
+export interface ActivitiyStore {
+    activities: Activity[];
+    lastEnd: number;
+}
 
 export default component$(() => {
-  return (
-    <>
-      <h1>Hi 👋</h1>
-      <p>
-        Can't wait to see what you build with qwik!
-        <br />
-        Happy coding.
-      </p>
-    </>
-  );
+    const store = useStore<ActivitiyStore>({
+        activities: [],
+        lastEnd: Date.now()
+    })
+
+    useTask$(() => {
+        if(isServer) return;
+        const storedActivities = localStorage.getItem("activities");
+        const storedLastEnd = localStorage.getItem("lastEnd");
+        if(storedActivities) store.activities = JSON.parse(storedActivities);
+        if(storedLastEnd) store.lastEnd = parseInt(storedLastEnd);
+    })
+
+    return (
+        <>
+            <div class={styles.container}>
+                <h1>Activity Tracker</h1>
+                <Timer store={store}/>
+            </div>
+        </>
+    );
 });
 
 export const head: DocumentHead = {
-  title: "Welcome to Qwik",
-  meta: [
-    {
-      name: "description",
-      content: "Qwik site description",
-    },
-  ],
+    title: "Activity Tracker",
+    meta: [
+        {
+            name: "Track your activities",
+            content: "Track your activities",
+        },
+    ],
 };

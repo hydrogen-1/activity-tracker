@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "timer button";
+  grid-template-columns: 80% auto;
+}
+
+.container p {
+  grid-area: timer;
+}
+
+.container button {
+  grid-area: button;
+}
