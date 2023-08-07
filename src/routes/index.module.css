@@ -1,5 +1,17 @@
 .container {
-  width: 20%;
+  display: grid;
+  grid-template-areas: "heading" "timer" "activities";
+  width: 25vw;
+  grid-template-rows: 5rem 10rem auto;
+  justify-self: center;
+}
+
+.container h1 {
+  grid-area: heading;
+}
+
+.container .timer {
+  grid-area: timer;
 }
 
 @media (max-width: 700px) {

@@ -19,7 +19,26 @@ html {
 
 body {
   padding: 0;
+  margin: 0;
   line-height: inherit;
-  display: flex;
+  display: grid;
+  width: 100%;
+}
+
+.content {
+  display: grid;
+  min-height: 100vh;
+  width: 100%;
+  grid-template-rows: 1fr 2rem;
+  grid-template-columns: 1fr;
+}
+
+.footer {
+  display: grid;
+  bottom: 0;
+  position: sticky;
+  justify-self: center;
   justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
 }

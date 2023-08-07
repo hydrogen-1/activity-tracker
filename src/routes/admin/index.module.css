@@ -1,0 +1,32 @@
+.container {
+    display: grid;
+    width: 25%;
+    justify-self: center;
+    grid-template-areas: "heading" "category" "reset";
+    grid-template-rows: 5rem 1fr 5rem;
+}
+
+.container h2 {
+    grid-area: heading;
+}
+
+.container .category {
+    grid-area: category;
+    display: grid;
+    row-gap: 1rem;
+    grid-template-rows: 1.5rem 1.5rem;
+}
+
+.category div {
+    display: grid;
+    grid-template-columns: 80% auto;
+}
+
+.container .reset {
+    grid-area: reset;
+}
+
+.reset button {
+    width: 100%;
+    height: 2rem;
+}
