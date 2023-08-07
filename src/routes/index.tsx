@@ -1,9 +1,7 @@
-import { component$, useStore, useTask$ } from "@builder.io/qwik";
+import { component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index.module.css"
 import Timer from "~/components/timer/timer";
-import { isServer } from "@builder.io/qwik/build"
-
 export interface Activity {
     start: number;
     end: number;
@@ -22,8 +20,7 @@ export default component$(() => {
         lastEnd: Date.now()
     })
 
-    useTask$(() => {
-        if(isServer) return;
+    useVisibleTask$(() => {
         const storedActivities = localStorage.getItem("activities");
         const storedLastEnd = localStorage.getItem("lastEnd");
         if(storedActivities) store.activities = JSON.parse(storedActivities);
