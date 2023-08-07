@@ -1,8 +1,10 @@
 .container {
   width: 100%;
   display: grid;
-  grid-template-areas: "timer button";
+  grid-template-areas: "timer button" "input input";
   grid-template-columns: 80% auto;
+  row-gap: 1rem;
+  align-items: center;
 }
 
 .container p {
@@ -11,4 +13,18 @@
 
 .container button {
   grid-area: button;
+  justify-self: flex-end;
+  aspect-ratio: 1/1;
+  height: 4rem;
+}
+
+.inputs {
+  grid-area: input;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+.inputs input {
+  width: 100%;
+  box-sizing: border-box;
 }

@@ -51,6 +51,10 @@ export default component$((props: TimerProps) => {
         <div class={styles.container}>
             <p>{formatTime(elapsedTime.value)}</p>
             <button onClick$={stopCurrent}>🛑</button>
+            <div class={styles.inputs}>
+                <label for="activity">Activity: </label>
+                <input type="text" id="activity" value={activity.value} onInput$={(el) => activity.value = (el.target as HTMLInputElement).value.trim()}/>
+            </div>
         </div>
     );
 })
