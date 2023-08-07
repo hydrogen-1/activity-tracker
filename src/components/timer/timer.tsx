@@ -54,6 +54,12 @@ export default component$((props: TimerProps) => {
             <div class={styles.inputs}>
                 <label for="activity">Activity: </label>
                 <input type="text" id="activity" value={activity.value} onInput$={(el) => activity.value = (el.target as HTMLInputElement).value.trim()}/>
+                <label for="category">Category: </label>
+                <select name="category" id="category" onChange$={(el) => category.value = el.target.value}>
+                    {props.store.categories.map((category) => {
+                        return <option value={category} key={category}>{category}</option>
+                    })}
+                </select>
             </div>
         </div>
     );
