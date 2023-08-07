@@ -5,6 +5,7 @@
     padding: 1rem;
     border: 1px solid black;
     border-radius: 1rem;
+    max-height: 7rem;
 }
 
 .dates {
