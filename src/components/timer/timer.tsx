@@ -8,7 +8,7 @@ interface TimerProps {
 
 export default component$((props: TimerProps) => {
     const activity = useSignal("");
-    const category = useSignal("");
+    const category = useSignal("none");
     const elapsedTime = useSignal(Date.now() - props.store.lastEnd);
 
     const stopCurrent = $(() => {
@@ -55,7 +55,8 @@ export default component$((props: TimerProps) => {
                 <label for="activity">Activity: </label>
                 <input type="text" id="activity" value={activity.value} onInput$={(el) => activity.value = (el.target as HTMLInputElement).value.trim()}/>
                 <label for="category">Category: </label>
-                <select name="category" id="category" onChange$={(el) => category.value = el.target.value}>
+                <select name="category" id="category" value={category.value} onChange$={(el) => category.value = el.target.value}>
+                    <option value="none">none</option>
                     {props.store.categories.map((category) => {
                         return <option value={category} key={category}>{category}</option>
                     })}
