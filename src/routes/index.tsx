@@ -2,6 +2,7 @@ import { component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import { type DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index.module.css"
 import Timer from "~/components/timer/timer";
+import Activity from "~/components/activity/activity";
 export interface Activity {
     start: number;
     end: number;
@@ -40,6 +41,11 @@ export default component$(() => {
                 <h1>Activity Tracker</h1>
                 <div class={styles.timer}>
                     <Timer store={store}/>
+                </div>
+                <div class={styles.activities}>
+                    {store.activities.map((activity) => {
+                        return <Activity activity={activity} store={store} key={activity.start}/>
+                    })}
                 </div>
             </div>
         </>
