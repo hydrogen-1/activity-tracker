@@ -1,3 +1,26 @@
 .card {
     display: grid;
+    grid-template-areas: "time time duration" "category name name";
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+}
+
+.dates {
+    grid-area: time;
+}
+
+.duration {
+    grid-area: duration;
+    justify-self: flex-end;
+}
+
+.category {
+    grid-area: category;
+}
+
+.name {
+    justify-self: flex-end;
+    grid-area: name;
 }
