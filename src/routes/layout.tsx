@@ -17,6 +17,7 @@ export default component$(() => {
     <div class="content">
       <Slot />
       <div class="footer">
+        <Link href="/">Home</Link>
         <Link href="/admin" >Administration</Link>
       </div>
     </div>
