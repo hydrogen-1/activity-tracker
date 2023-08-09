@@ -5,7 +5,7 @@ import {
   useVisibleTask$,
   $,
 } from "@builder.io/qwik";
-import { useLocation } from "@builder.io/qwik-city";
+import { useLocation, useNavigate } from "@builder.io/qwik-city";
 import { ActivityContext } from "~/routes/layout";
 import styles from "./index.module.css";
 import { inputTime } from "~/services/time-formatter";
@@ -17,6 +17,7 @@ export default component$(() => {
   const end = useSignal("");
   const name = useSignal("");
   const category = useSignal("");
+  const nav = useNavigate();
 
   const findActivity = $(() => {
     return ctx.activities.find((x) => {
@@ -58,6 +59,16 @@ export default component$(() => {
     category.value = el.value;
     const activity = await findActivity();
     if (activity) activity.category = el.value;
+  });
+
+  const deleteActivity = $(() => {
+    const index = ctx.activities.findIndex((x) => {
+      return x.id === id;
+    });
+    if (index != -1){
+        ctx.activities.splice(index, 1);
+        nav('/')
+    }
   });
 
   return (
@@ -113,6 +124,9 @@ export default component$(() => {
             );
           })}
         </datalist>
+      </div>
+      <div class={styles.delete}>
+        <button onClick$={deleteActivity}>Delete entry</button>
       </div>
     </div>
   );

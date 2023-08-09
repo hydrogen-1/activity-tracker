@@ -1,13 +1,33 @@
 .container {
     display: grid;
-    grid-template-areas: "start" "end";
+    grid-template-areas: "start" "end" "name" "category" "delete";
+    grid-template-rows: 1fr 1fr 1fr 1fr auto;
     width: 25%;
     justify-self: center;
     height: 5rem;
+    row-gap: 1rem;
 }
 
 .start {
     grid-area: start;
+}
+
+.end {
+    grid-area: end;
+}
+
+.name {
+    grid-area: name;
+}
+
+.category {
+    grid-area: category;
+}
+
+.delete {
+    grid-area: delete;
+    display: grid;
+    justify-items: center;
 }
 
 input {
@@ -15,9 +35,7 @@ input {
     width: 100%;
 }
 
-.end {
-    grid-area: end;
-}
+
 
 @media (max-width: 700px) {
     .container {
