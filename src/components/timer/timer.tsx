@@ -35,7 +35,10 @@ export default component$(() => {
 
   useTask$(({ track, cleanup }) => {
     track(() => elapsedTime.value);
-    const timer = setTimeout(() => elapsedTime.value++, 1000);
+    const timer = setTimeout(
+      () => (elapsedTime.value = (Date.now() - ctx.lastEnd) / 1000),
+      1000
+    );
     cleanup(() => clearTimeout(timer));
   });
 
