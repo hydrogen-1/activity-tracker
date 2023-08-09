@@ -11,11 +11,16 @@
   grid-area: timer;
 }
 
-.container button {
+.buttons {
   grid-area: button;
   justify-self: flex-end;
+  grid-auto-flow: column;
+}
+
+.buttons button {
   aspect-ratio: 1/1;
-  height: 4rem;
+  height: 2rem;
+  font-size: 1rem;
 }
 
 .inputs {
@@ -24,6 +29,7 @@
   display: grid;
   grid-template-columns: auto 1fr;
 }
+
 .inputs input {
   width: 100%;
   box-sizing: border-box;
