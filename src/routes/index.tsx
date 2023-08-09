@@ -19,7 +19,7 @@ export default component$(() => {
                 <div class={styles.activities}>
                     {ctx.activities.map((activity) => {
                         return <Activity activity={activity} key={activity.id}/>
-                    })}
+                    }).reverse()}
                 </div>
             </div>
         </>
