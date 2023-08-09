@@ -1,4 +1,4 @@
-import { component$, Slot } from "@builder.io/qwik";
+import { component$, createContextId, Slot, useContextProvider, useStore, useVisibleTask$ } from "@builder.io/qwik";
 import { Link, type RequestHandler } from "@builder.io/qwik-city";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
@@ -12,7 +12,43 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
   });
 };
 
+export interface Activity {
+  id: string
+  start: number;
+  end: number;
+  name: string;
+  category: string;
+}
+
+export interface ActivitiyStore {
+  activities: Activity[];
+  lastEnd: number;
+  categories: string[];
+}
+
+export const ActivityContext = createContextId<ActivitiyStore>("activities")
+
 export default component$(() => {
+  const store = useStore<ActivitiyStore>({
+    activities: [],
+    categories: ["Free time", "Work", "Hygiene", "Sleep"],
+    lastEnd: Date.now()
+  })
+  useContextProvider(ActivityContext, store);
+
+
+  useVisibleTask$(() => {
+    const storedActivities = localStorage.getItem("activities");
+    const storedLastEnd = localStorage.getItem("lastEnd");
+    const storedCategories = localStorage.getItem("categories");
+    if (storedActivities) store.activities = JSON.parse(storedActivities);
+    if (storedLastEnd) store.lastEnd = parseInt(storedLastEnd);
+    if (storedCategories) store.categories = JSON.parse(storedCategories);
+    if (!storedCategories) {
+      localStorage.setItem("categories", JSON.stringify(store.categories))
+    }
+  });
+
   return (
     <div class="content">
       <Slot />

@@ -1,18 +1,19 @@
 import { component$ } from "@builder.io/qwik";
 import styles from "./activity.module.css"
-import type { ActivitiyStore, Activity } from "~/routes";
 import { formatTime } from "~/services/time-formatter"
+import { useNavigate } from "@builder.io/qwik-city";
+import type { Activity } from "~/routes/layout";
 
 interface ActivityProps {
     activity: Activity;
-    store: ActivitiyStore;
 }
 
 export default component$((props: ActivityProps) => {
+    const nav = useNavigate();
     const startDate = new Date(props.activity.start)
     const endDate = new Date(props.activity.end)
     return (
-        <div class={styles.card}>
+        <div class={styles.card} onClick$={async () => nav(`/edit/${props.activity.id}`)}>
             <p class={styles.dates}>
                 {startDate.toLocaleTimeString()} -
                 {endDate.toLocaleTimeString()}

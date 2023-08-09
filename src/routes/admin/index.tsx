@@ -1,24 +1,11 @@
-import { component$, $, useStore, useVisibleTask$, useSignal } from "@builder.io/qwik"
+import { component$, $, useSignal, useContext } from "@builder.io/qwik"
 import styles from "./index.module.css"
-import type { ActivitiyStore } from ".."
+import { ActivityContext } from "../layout";
 
 export default component$(() => {
     const newCategory = useSignal("");
     const toDelete = useSignal("");
-    const store = useStore<ActivitiyStore>({
-        activities: [],
-        lastEnd: Date.now(),
-        categories: []
-    });
-
-    useVisibleTask$(() => {
-        const storedActivities = localStorage.getItem("activities");
-        const storedLastEnd = localStorage.getItem("lastEnd");
-        const storedCategories = localStorage.getItem("categories");
-        if (storedActivities) store.activities = JSON.parse(storedActivities);
-        if (storedLastEnd) store.lastEnd = parseInt(storedLastEnd);
-        if (storedCategories) store.categories = JSON.parse(storedCategories);
-    });
+    const ctx = useContext(ActivityContext)
 
     const reset = $(() => {
         localStorage.clear();
@@ -26,19 +13,18 @@ export default component$(() => {
     });
 
     const addCategory = $(() => {
-        console.log(store.categories)
-        if (store.categories.findIndex((category) => category === newCategory.value) == -1) {
-            store.categories.push(newCategory.value);
-            localStorage.setItem("categories", JSON.stringify(store.categories));
+        if (ctx.categories.findIndex((category) => category === newCategory.value) == -1) {
+            ctx.categories.push(newCategory.value);
+            localStorage.setItem("categories", JSON.stringify(ctx.categories));
         }
     });
 
     const deleteCategory = $(() => {
-        const index = store.categories.findIndex((category) => category === toDelete.value)
+        const index = ctx.categories.findIndex((category) => category === toDelete.value)
         if(index != -1)
         {
-            store.categories.splice(index, 1);
-            localStorage.setItem("categories", JSON.stringify(store.categories));
+            ctx.categories.splice(index, 1);
+            localStorage.setItem("categories", JSON.stringify(ctx.categories));
         }
     });
 
@@ -52,7 +38,7 @@ export default component$(() => {
                 </div>
                 <div class={styles.delete}>
                     <select name="categories" id="categories" onChange$={(el) => toDelete.value = el.target.value}>
-                        {store.categories.map((category) => {
+                        {ctx.categories.map((category) => {
                             return <option value={category} key={category}>{category}</option>
                         })}
                     </select>

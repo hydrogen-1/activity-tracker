@@ -1,0 +1,26 @@
+.container {
+    display: grid;
+    grid-template-areas: "start" "end";
+    width: 25%;
+    justify-self: center;
+    height: 5rem;
+}
+
+.start {
+    grid-area: start;
+}
+
+input {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.end {
+    grid-area: end;
+}
+
+@media (max-width: 700px) {
+    .container {
+        width: 80%;
+    }
+}

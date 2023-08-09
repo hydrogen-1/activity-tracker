@@ -1,30 +1,29 @@
-import { component$, $, useSignal, useTask$, useVisibleTask$ } from "@builder.io/qwik"
+import { component$, $, useSignal, useTask$, useVisibleTask$, useContext } from "@builder.io/qwik"
 import styles from "./timer.module.css"
-import type { ActivitiyStore } from "~/routes"
+import { ActivityContext } from "~/routes/layout"
 import { formatTime } from "~/services/time-formatter"
+import { v4 } from "uuid"
 
-interface TimerProps {
-    store: ActivitiyStore
-}
-
-export default component$((props: TimerProps) => {
+export default component$(() => {
+    const store = useContext(ActivityContext);
     const activity = useSignal("");
     const category = useSignal("none");
-    const elapsedTime = useSignal(Date.now() - props.store.lastEnd);
+    const elapsedTime = useSignal(Date.now() - store.lastEnd);
 
     const stopCurrent = $(() => {
         const currentTime = Date.now();
-        props.store.activities.push({
-            start: props.store.lastEnd,
+        store.activities.push({
+            id: v4(),
+            start: store.lastEnd,
             end: currentTime,
             name: activity.value,
             category: category.value
         })
-        props.store.lastEnd = currentTime;
+        store.lastEnd = currentTime;
         elapsedTime.value = 0;
 
-        localStorage.setItem("activities", JSON.stringify(props.store.activities));
-        localStorage.setItem("lastEnd", props.store.lastEnd.toString());
+        localStorage.setItem("activities", JSON.stringify(store.activities));
+        localStorage.setItem("lastEnd", store.lastEnd.toString());
     });
 
     useTask$(({ track, cleanup }) => {
@@ -36,8 +35,7 @@ export default component$((props: TimerProps) => {
     });
 
     useVisibleTask$(() => {
-        console.log(Date.now(), props.store.lastEnd)
-        elapsedTime.value = (Date.now() - props.store.lastEnd) / 1000
+        elapsedTime.value = (Date.now() - store.lastEnd) / 1000
     })
 
     return (
@@ -50,7 +48,7 @@ export default component$((props: TimerProps) => {
                 <label for="category">Category: </label>
                 <select name="category" id="category" value={category.value} onChange$={(el) => category.value = el.target.value}>
                     <option value="none">none</option>
-                    {props.store.categories.map((category) => {
+                    {store.categories.map((category) => {
                         return <option value={category} key={category}>{category}</option>
                     })}
                 </select>

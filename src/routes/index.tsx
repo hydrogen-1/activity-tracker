@@ -1,50 +1,24 @@
-import { component$, useStore, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useContext } from "@builder.io/qwik";
 import { type DocumentHead } from "@builder.io/qwik-city";
 import styles from "./index.module.css"
 import Timer from "~/components/timer/timer";
 import Activity from "~/components/activity/activity";
-export interface Activity {
-    start: number;
-    end: number;
-    name: string;
-    category: string;
-}
+import { ActivityContext } from "./layout";
 
-export interface ActivitiyStore {
-    activities: Activity[];
-    lastEnd: number;
-    categories: string[];
-}
 
 export default component$(() => {
-    const store = useStore<ActivitiyStore>({
-        activities: [],
-        lastEnd: Date.now(),
-        categories: ["Free-time", "Sleep", "Hygiene", "Work"]
-    })
-
-    useVisibleTask$(() => {
-        const storedActivities = localStorage.getItem("activities");
-        const storedLastEnd = localStorage.getItem("lastEnd");
-        const storedCategories = localStorage.getItem("categories");
-        if(storedActivities) store.activities = JSON.parse(storedActivities);
-        if(storedLastEnd) store.lastEnd = parseInt(storedLastEnd);
-        if(storedCategories) store.categories = JSON.parse(storedCategories);
-        if(!storedCategories) {
-            localStorage.setItem("categories", JSON.stringify(store.categories))
-        }
-    })
+    const ctx = useContext(ActivityContext)
 
     return (
         <>
             <div class={styles.container}>
                 <h1>Activity Tracker</h1>
                 <div class={styles.timer}>
-                    <Timer store={store}/>
+                    <Timer/>
                 </div>
                 <div class={styles.activities}>
-                    {store.activities.map((activity) => {
-                        return <Activity activity={activity} store={store} key={activity.start}/>
+                    {ctx.activities.map((activity) => {
+                        return <Activity activity={activity} key={activity.id}/>
                     })}
                 </div>
             </div>
